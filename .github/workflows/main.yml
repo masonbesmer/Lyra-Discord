@@ -16,4 +16,4 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.SSH_USER }}
           password: ${{ secrets.PASSWORD }}
-          privateKey: ${{ secrets.PRIVATE_KEY}}
+#         privateKey: ${{ secrets.PRIVATE_KEY}}
