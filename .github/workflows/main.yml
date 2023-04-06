@@ -9,7 +9,7 @@ jobs:
       CI: true
     steps:
       - name: checkout branch
-      - uses: actions/checkout@v3
+        uses: actions/checkout@v3
 #     - name: stop bot service for replacement
 #       run: |
 #          stuff to run
