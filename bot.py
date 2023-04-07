@@ -1,3 +1,5 @@
+import os
+from dotenv import load_dotenv
 import requests
 import discord
 import logging
@@ -6,7 +8,9 @@ import random
 from discord import Interaction, Message, app_commands
 import youtube_dl
 
-token = "MTA5MDQ1OTE3ODY4Mzg2MzExMA.G9fE2C.urWS9YYEz6REOleMSQzsnIiXdvhVM6GdLxZJdw"
+load_dotenv()
+
+token = os.getenv("discord_token")
 my_guild = "Night City"
 guild=discord.Object(id=925192180480491540)
 
