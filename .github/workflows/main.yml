@@ -19,9 +19,7 @@ jobs:
       - name: Restart the bot
         uses: fifsky/ssh-action@v0.0.6
         with:
-          command: |
-            sudo systemctl restart lyra
-            exit 1
+          command: sudo systemctl restart lyra
           host: ${{ secrets.HOST }}
           user: ${{ secrets.SSH_USER }}
           key: ${{ secrets.PRIVATE_KEY}}
