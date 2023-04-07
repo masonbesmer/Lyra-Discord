@@ -8,7 +8,7 @@ jobs:
     env:
       CI: true
     steps:
-      - name: checkout branch
+      - name: checkout main
         uses: actions/checkout@v3
 #     - name: stop bot service for replacement
 #       run: |
@@ -23,4 +23,5 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           password: ${{ secrets.PASSWORD }}
 #         privateKey: ${{ secrets.PRIVATE_KEY}}
-          rmRemote: false
+#         rmRemote: false
+          atomicPut: true
