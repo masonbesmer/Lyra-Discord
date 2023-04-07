@@ -25,4 +25,4 @@ jobs:
           host: ${{ secrets.HOST }}
           user: ${{ secrets.SSH_USER }}
           key: ${{ secrets.PRIVATE_KEY}}
-          args: "-tt"
+          args: "-tt -vvv"
