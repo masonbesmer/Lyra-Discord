@@ -22,4 +22,4 @@ jobs:
           rmRemote: true
       - name: stop bot service for replacement
         run: |
-          sudo systemctl restart lyra
+          systemctl restart lyra
