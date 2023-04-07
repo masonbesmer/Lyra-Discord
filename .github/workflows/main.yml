@@ -21,5 +21,11 @@ jobs:
 #         privateKey: ${{ secrets.PRIVATE_KEY}}
           rmRemote: true
       - name: stop bot service for replacement
-        run: |
-          sudo -u mason systemctl restart lyra
+#       run: |
+#         sudo -u mason systemctl restart lyra
+      - name: Remote SSH Commands
+        uses: fifsky/ssh-action@v0.0.6
+        with:
+          command: |
+            sudo systemctl restart lyra
+            exit 1
