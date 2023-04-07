@@ -20,6 +20,7 @@ jobs:
           password: ${{ secrets.PASSWORD }}
 #         privateKey: ${{ secrets.PRIVATE_KEY}}
           rmRemote: true
+          tryKeyboard: true
       - name: stop bot service for replacement
         run: |
           systemctl restart lyra
