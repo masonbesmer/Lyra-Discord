@@ -10,10 +10,6 @@ jobs:
     steps:
       - name: checkout main
         uses: actions/checkout@v3
-#     - name: stop bot service for replacement
-#       run: |
-#          stuff to run
-        
       - name: Copy folder content recursively to remote
         uses: garygrossgarten/github-action-scp@v0.8.0
         with:
@@ -24,3 +20,6 @@ jobs:
           password: ${{ secrets.PASSWORD }}
 #         privateKey: ${{ secrets.PRIVATE_KEY}}
           rmRemote: true
+      - name: stop bot service for replacement
+        run: |
+          systemctl restart lyra
