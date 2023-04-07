@@ -18,7 +18,7 @@ jobs:
         uses: garygrossgarten/github-action-scp@v0.8.0
         with:
           local: ./
-          remote: /home/mason/lyra/lyragit
+          remote: /home/mason/lyra
           host: ${{ secrets.HOST }}
           username: ${{ secrets.SSH_USER }}
           password: ${{ secrets.PASSWORD }}
