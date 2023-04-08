@@ -22,7 +22,7 @@ jobs:
           command: |
             ls -la
             echo "what"
-            exit 1
+            exit 0
           host: ${{ secrets.HOST }}
           user: ${{ secrets.SSH_USER }}
           key: ${{ secrets.PRIVATE_KEY}}
