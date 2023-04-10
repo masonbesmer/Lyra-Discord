@@ -7,6 +7,8 @@ import json
 import random
 from discord import Interaction, Message, app_commands
 import youtube_dl
+import re
+from urllib import parse, request
 
 load_dotenv()
 
@@ -14,7 +16,7 @@ token = os.getenv("discord_token")
 my_guild = "Night City"
 guild=discord.Object(id=925192180480491540)
 
-administrators=[ 181235555936239616 ]
+
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -160,13 +162,16 @@ async def leave(interaction: Interaction):
         await voice_client.disconnect()
         return await interaction.response.send_message("okay, left!")
 
-@tree.command(name="restart", description="Restart Lyra's systemd service (authorized users only)", guild=guild)
-async def restart(interaction: Interaction):
-    await interaction.response.send_message("cmd recieved")
-    # if interaction.message.author.id in administrators:
-    #     await interaction.response.send_message("sure, restarting")
-    #     SystemExit.code(0)
-    #     return await interaction.response.send_message("uh oh, stinky! an unknown error occured!")
-    # await interaction.response.send_message("ya not on the list")
+@tree.command(name="play", description="Search YouTube for a video and play it (or provide a url)", guild=guild)
+@app_commands.describe(input="YouTube URL or search query")
+async def play(interaction: Interaction, input: str):
+    if "https://youtu.be/" in input or "http://youtube.com/watch?v=" in input:
+        #link provided
+        await interaction.response.send_message("i cannot do that yet")
+    query_string = parse.urlencode({'search_query': input})
+    html_content = request.urlopen("https://www.youtube.com/results?search_query=" + query_string)
+    search_content = html_content.read().decode()
+    search_results = re.findall(r'\/watch\?v=\w+', search_content)
+    await interaction.response.send_message("https://youtube.com/" + search_results[0])
 
 client.run(token, log_handler=handler, log_level=logging.DEBUG)
