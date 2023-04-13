@@ -6,9 +6,54 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: checkout main for deployment
+      - name: Checkout main
         uses: actions/checkout@v3
-      - name: Copy bot.py to remote to deploy
+        with:
+          fetch-depth: 2
+      - name: Check for file changes
+        id: check_file_changes
+        run : |
+          # diff head with previous commit
+          $diff = git diff --name-only HEAD^ HEAD
+          
+          # check if requirements.txt changed (A/M/D)
+          $ReqSourceDiff = $diff | Where-Object { $_ -match 'requirements.txt$' }
+          $ReqHasDiff = $ReqSourceDiff.Length -gt 0
+
+          # set output named "req_changed"
+          Write-Host "::set-output name=req_changed::$ReqHasDiff"
+
+          # check if bot.py changed (A/M/D)
+          $BotSourceDiff = $diff | Where-Object { $_ -match 'bot.py$' }
+          $BotHasDiff = $BotSourceDiff.Length -gt 0
+          
+          # set output named "bot_changed"
+          Write-Host "::set-output name=bot_changed::$BotHasDiff"
+        
+      - if: steps.check_file_changes.outputs.req_changed == 'True'
+        name: Copy requirements.txt to remote
+        uses: garygrossgarten/github-action-scp@v0.8.0
+        with:
+          local: ./requirements.txt
+          remote: /home/mason/lyra/requirements.txt
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.SSH_USER }}
+          privateKey: ${{ secrets.PRIVATE_KEY}}
+      - if: steps.check_file_changes.outputs.req_changed == 'True'
+        name: Update Virtual Environment
+        uses: fifsky/ssh-action@v0.0.6
+        with:
+          command: |
+            cd /home/mason/lyra
+            pip install -r requirements.txt
+            exit 0
+          host: ${{ secrets.HOST }}
+          user: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.PRIVATE_KEY}}
+          args: "-tt"
+      # check for bot change and copy and deploy like done above (basically add conditionals
+      # to the below code
+      - name: Copy bot.py to remote
         uses: garygrossgarten/github-action-scp@v0.8.0
         with:
           local: ./bot.py
