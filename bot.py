@@ -16,7 +16,7 @@ token = os.getenv("discord_token")
 my_guild = "Night City"
 guild=discord.Object(id=925192180480491540)
 
-
+# this is a comment test
 
 intents = discord.Intents.default()
 intents.message_content = True
