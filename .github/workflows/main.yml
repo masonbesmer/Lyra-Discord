@@ -22,14 +22,14 @@ jobs:
           $ReqHasDiff = $ReqSourceDiff.Length -gt 0
 
           # set output named "req_changed"
-          Write-Host "req_changed=$ReqHasDiff" >> $GITHUB_OUTPUT
+          echo "req_changed=$ReqHasDiff" >> $env:GITHUB_OUTPUT
 
           # check if bot.py changed (A/M/D)
           $BotSourceDiff = $diff | Where-Object { $_ -match 'bot.py$' }
           $BotHasDiff = $BotSourceDiff.Length -gt 0
           
           # set output named "bot_changed"
-          Write-Host "bot_changed=$BotHasDiff" >> $GITHUB_OUTPUT
+          echo "bot_changed=$BotHasDiff" >> $env:GITHUB_OUTPUT
       - name: check outputs
         run: |
           echo "${{ steps.check_file_changes.outputs.bot_changed }}"
