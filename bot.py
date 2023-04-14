@@ -56,10 +56,6 @@ async def on_message(message: Message):
     if "simply" in message.content.lower():
         await message.channel.send("shrimply")
 
-    if "nigger" in message.content.lower():
-        await message.channel.send("hey mister, you said a bad word!")
-        await message.delete()
-
 rule34api = "https://api.rule34.xxx/index.php?page=dapi&s=post&q=index"
 
 @tree.command(name = "rule34", description="Ask Lyra to query Rule 34 based on specified tags", nsfw=True, guild=guild)
