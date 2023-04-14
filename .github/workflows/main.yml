@@ -22,14 +22,14 @@ jobs:
           $ReqHasDiff = $ReqSourceDiff.Length -gt 0
 
           # set output named "req_changed"
-          Write-Host "::set-output name=req_changed::$ReqHasDiff"
+          Write-Host "req_changed=$ReqHasDiff" >> $GITHUB_OUTPUT
 
           # check if bot.py changed (A/M/D)
           $BotSourceDiff = $diff | Where-Object { $_ -match 'bot.py$' }
           $BotHasDiff = $BotSourceDiff.Length -gt 0
           
           # set output named "bot_changed"
-          Write-Host "::set-output name=bot_changed::$BotHasDiff"
+          Write-Host "bot_changed=$BotHasDiff" >> $GITHUB_OUTPUT
       - if: steps.check_file_changes.outputs.req_changed == 'True'
         name: Copy requirements.txt to remote
         uses: garygrossgarten/github-action-scp@v0.8.0
