@@ -30,6 +30,10 @@ jobs:
           
           # set output named "bot_changed"
           Write-Host "bot_changed=$BotHasDiff" >> $GITHUB_OUTPUT
+      - name: check outputs
+        run: |
+          echo "${{ steps.check_file_changes.outputs.bot_changed }}"
+          echo "${{ steps.check_file_changes.outputs.req_changed }}"
       - if: steps.check_file_changes.outputs.req_changed == 'True'
         name: Copy requirements.txt to remote
         uses: garygrossgarten/github-action-scp@v0.8.0
