@@ -3,7 +3,7 @@ on:
     branches:
       - main
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout main
@@ -30,7 +30,6 @@ jobs:
           
           # set output named "bot_changed"
           Write-Host "::set-output name=bot_changed::$BotHasDiff"
-        
       - if: steps.check_file_changes.outputs.req_changed == 'True'
         name: Copy requirements.txt to remote
         uses: garygrossgarten/github-action-scp@v0.8.0
@@ -52,9 +51,8 @@ jobs:
           user: ${{ secrets.SSH_USER }}
           key: ${{ secrets.PRIVATE_KEY}}
           args: "-tt"
-      # check for bot change and copy and deploy like done above (basically add conditionals
-      # to the below code
-      - name: Copy bot.py to remote
+      - if: steps.check_file_changes.outputs.bot_changed == 'True'
+        name: Copy bot.py to remote
         uses: garygrossgarten/github-action-scp@v0.8.0
         with:
           local: ./bot.py
@@ -62,7 +60,8 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.SSH_USER }}
           privateKey: ${{ secrets.PRIVATE_KEY}}
-      - name: Restart the bot
+      - if: steps.check_file_changes.outputs.bot_changed == 'True'
+        name: Restart the bot
         uses: fifsky/ssh-action@v0.0.6
         with:
           command: |
